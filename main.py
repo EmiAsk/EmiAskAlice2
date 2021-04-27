@@ -53,7 +53,10 @@ def handle_dialog(res, req):
         sessionStorage[user_id] = {
             'first_name': None,  # здесь будет храниться имя
             'game_started': False,  # здесь информация о том, что
-            'last_btns': ['Помощь']
+            'last_btns': [{
+                        'title': 'Помощь',
+                        'hide': True
+                    }]
             # пользователь начал игру. По умолчанию False
         }
         return
