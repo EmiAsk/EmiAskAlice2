@@ -52,7 +52,8 @@ def handle_dialog(res, req):
         res['response']['text'] = 'Привет! Назови своё имя!'
         sessionStorage[user_id] = {
             'first_name': None,  # здесь будет храниться имя
-            'game_started': False  # здесь информация о том, что
+            'game_started': False,  # здесь информация о том, что
+            'last_btns': ['Помощь']
             # пользователь начал игру. По умолчанию False
         }
         return
