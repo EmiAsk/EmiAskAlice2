@@ -2,6 +2,7 @@ from flask import Flask, request
 import logging
 import json
 import random
+import os
 
 app = Flask(__name__)
 
@@ -42,7 +43,8 @@ def handle_dialog(res, req):
         res['response']['text'] = 'Привет! Назови своё имя!'
         sessionStorage[user_id] = {
             'first_name': None,  # здесь будет храниться имя
-            'game_started': False  # здесь информация о том, что пользователь начал игру. По умолчанию False
+            'game_started': False  # здесь информация о том, что
+            # пользователь начал игру. По умолчанию False
         }
         return
 
@@ -58,7 +60,8 @@ def handle_dialog(res, req):
             # как видно из предыдущего навыка, сюда мы попали, потому
             # что пользователь написал своем имя.
             # Предлагаем ему сыграть и два варианта ответа "Да" и "Нет".
-            res['response']['text'] = f'Приятно познакомиться, {first_name.title()}. Я Алиса. Отгадаешь город по фото?'
+            res['response']['text'] = f'Приятно познакомиться, {first_name.title()}.' \
+                                      f'Я Алиса. Отгадаешь город по фото?'
             res['response']['buttons'] = [
                 {
                     'title': 'Да',
@@ -181,4 +184,6 @@ def get_first_name(req):
 
 
 if __name__ == '__main__':
-    app.run()
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)
+
