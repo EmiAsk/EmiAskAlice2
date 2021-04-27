@@ -32,10 +32,10 @@ def main():
         'version': request.json['version'],
         'response': {
             'end_session': False,
-            'buttons':  {
+            'buttons':  [{
                 'title': 'Помощь',
                 'hide': True
-            }
+            }]
         }
 
     }
@@ -60,7 +60,7 @@ def handle_dialog(res, req):
     if req['request']['original_utterance'].lower() in ['помощь', 'помоги', 'help', 'помогите']:
         res['response']['text'] = 'Активировалась помощь! Не знаю, что здесь написать :D\n' \
                                   'Продолжайте отвечать на заданный ранее вопрос!!!'
-        res['response']['buttons'] = sessionStorage[user_id].get('last_btns')
+        res['response']['buttons'] = sessionStorage[user_id].get('last_btns', [])[:]
         return
 
     if sessionStorage[user_id]['first_name'] is None:
@@ -133,7 +133,7 @@ def handle_dialog(res, req):
 
         else:
             play_game(res, req)
-    sessionStorage[user_id]['last_btns'] = res['response'].get('buttons')
+    sessionStorage[user_id]['last_btns'] = res['response'].get('buttons', [])[:]
 
 
 def play_game(res, req):
