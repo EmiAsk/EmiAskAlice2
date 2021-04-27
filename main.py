@@ -1,8 +1,9 @@
-from flask import Flask, request
-import logging
 import json
-import random
+import logging
 import os
+import random
+
+from flask import Flask, request
 
 app = Flask(__name__)
 
@@ -39,6 +40,7 @@ def main():
 
 def handle_dialog(res, req):
     user_id = req['session']['user_id']
+
     if req['session']['new']:
         res['response']['text'] = 'Привет! Назови своё имя!'
         sessionStorage[user_id] = {
@@ -46,6 +48,17 @@ def handle_dialog(res, req):
             'game_started': False  # здесь информация о том, что
             # пользователь начал игру. По умолчанию False
         }
+        return
+
+    res['response']['buttons'] = [  # В самом начале добавляем кнопку о помощи
+        {
+            'title': 'Помощь',
+            'hide': True
+        }]
+
+    if req['request']['original_utterance'].lower() in ['помощь', 'помоги', 'help', 'помогите']:
+        res['response']['text'] = 'Активировалась помощь! Не знаю, что здесь написать :D\n' \
+                                  'Продолжайте отвечать на заданный ранее вопрос!!!'
         return
 
     if sessionStorage[user_id]['first_name'] is None:
@@ -69,6 +82,9 @@ def handle_dialog(res, req):
                 },
                 {
                     'title': 'Нет',
+                    'hide': True
+                }, {
+                    'title': 'Помощь',
                     'hide': True
                 }
             ]
