@@ -205,7 +205,8 @@ def play_game(res, req):
                 sessionStorage[user_id]['game_started'] = False
                 return
             res['response']['text'] = 'Вы не угадали страну города! Попробуйте ещё раз.'
-
+            return 
+            
         # проверяем есть ли правильный ответ в сообщение
         if get_city(req) == city:
             res['response']['text'] = 'Верно! А теперь угадайте в какой стране этот город?'
