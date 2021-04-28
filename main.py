@@ -10,8 +10,6 @@ LANGUAGE = 'en'
 
 app = Flask(__name__)
 
-logging.basicConfig(format='%(asctime)s %(levelname)s %(name)s %(message)s')
-
 sessionStorage = {}
 
 
@@ -32,10 +30,8 @@ def translate(word):
         return
 
 
-@app.route('/post')
+@app.route('/post', methods=['POST'])
 def main():
-    logging.info('Request: %r', request.json)
-
     response = {
         'session': request.json['session'],
         'version': request.json['version'],
@@ -46,7 +42,6 @@ def main():
     }
 
     handle_dialog(response, request.json)
-    logging.info('Response: %r', response)
     return json.dumps(response)
 
 
@@ -71,6 +66,7 @@ def handle_dialog(res, req):
                                   f'В этом тебе поможет команда:\n' \
                                   f'\n"Переведи слово [слово]\n\nПросто ' \
                                   f'отправь эту команду мне!"'
+        return
 
     if req['request']['original_utterance'].lower() in ['помощь', 'помоги', 'help', 'помогите']:
         res['response']['text'] = 'Чтобы перевести текст введите команду:\n\n' \
@@ -87,7 +83,7 @@ def handle_dialog(res, req):
         res['response']['text'] = text
 
     else:
-        res['response']['text'] = f'{sessionStorage[user_id]["first_name"]}, я не понимаю' \
+        res['response']['text'] = f'{sessionStorage[user_id]["first_name"]}, я не понимаю ' \
                                   f'вашу команду! Можете использовать помощь, чтобы узнать' \
                                   f'корректный запрос перевода. Введите команду ещё раз!'
 
