@@ -176,7 +176,7 @@ def play_game(res, req):
     user_id = req['session']['user_id']
     attempt = sessionStorage[user_id]['attempt']
     name = sessionStorage[user_id]["first_name"].title()
-    
+
     if attempt == 1:
         # если попытка первая, то случайным образом выбираем город для гадания
         city = random.choice(list(cities))
@@ -212,7 +212,7 @@ def play_game(res, req):
 
         # проверяем есть ли правильный ответ в сообщение
         if get_city(req) == city:
-            res['response']['text'] = f'Верно, {name}! А теперь угадайте в' \
+            res['response']['text'] = f'Верно, {name}! А теперь угадайте в ' \
                                       f'какой стране этот город?'
             sessionStorage[user_id]['guessed_cities'].append(city)
             return
@@ -227,7 +227,7 @@ def play_game(res, req):
                 # иначе показываем следующую картинку
                 res['response']['card'] = {}
                 res['response']['card']['type'] = 'BigImage'
-                res['response']['card']['title'] = f'{name}, Неправильно.' \
+                res['response']['card']['title'] = f'{name}, Неправильно. ' \
                                                    f'Вот тебе дополнительное фото'
                 res['response']['card']['image_id'] = cities[city][attempt - 1]
                 res['response']['text'] = f'{name}, Вы не угадали!'
