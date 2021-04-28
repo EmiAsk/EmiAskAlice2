@@ -7,7 +7,6 @@ import os
 
 
 def get_distance(p1, p2):
-    # p1 и p2 - это кортежи из двух элементов - координаты точек
     radius = 6373.0
 
     lon1 = math.radians(p1[0])
