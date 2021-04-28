@@ -3,7 +3,7 @@ from flask import Flask, request
 import os
 import logging
 import json
-from deep_translator import GoogleTranslator  # pip install deep_translator - обязательно!!!
+from deep_translator import GoogleTranslator
 
 
 LANGUAGE = 'en'
@@ -74,7 +74,7 @@ def handle_dialog(res, req):
         return
 
     tokens = req['request']['nlu']['tokens']
-    if len(tokens) >= 3 and tokens[:2] == ['переведи', 'слово']:
+    if len(tokens) >= 3 and tokens[:2] == ['переведи', 'предложение']:
         text = translate(' '.join(tokens[2:]))
         if text is None:
             res['response']['text'] = 'При переводе произошла непредвиденная ошибка! ' \
@@ -86,7 +86,7 @@ def handle_dialog(res, req):
         res['response']['text'] = f'{sessionStorage[user_id]["first_name"].title()}, ' \
                                   f'я не понимаю ' \
                                   f'вас! Можете использовать помощь, чтобы узнать ' \
-                                  f'корректный команду перевода. Повторите ввод!'
+                                  f'корректную команду перевода. Повторите ввод!'
 
 
 def get_first_name(req):
