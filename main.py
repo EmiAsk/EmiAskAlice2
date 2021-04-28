@@ -74,8 +74,8 @@ def handle_dialog(res, req):
         return
 
     tokens = req['request']['nlu']['tokens']
-    if len(tokens) == 3 and tokens[:-1] == ['переведи', 'слово']:
-        text = translate(tokens[-1])
+    if len(tokens) >= 3 and tokens[:2] == ['переведи', 'слово']:
+        text = translate(' '.join(tokens[2:]))
         if text is None:
             res['response']['text'] = 'При переводе произошла непредвиденная ошибка! ' \
                                       'Повторите ввод.'
@@ -85,8 +85,8 @@ def handle_dialog(res, req):
     else:
         res['response']['text'] = f'{sessionStorage[user_id]["first_name"].title()}, ' \
                                   f'я не понимаю ' \
-                                  f'вашу команду! Можете использовать помощь, чтобы узнать' \
-                                  f'корректный запрос перевода. Введите команду ещё раз!'
+                                  f'вас! Можете использовать помощь, чтобы узнать ' \
+                                  f'корректный команду перевода. Повторите ввод!'
 
 
 def get_first_name(req):
