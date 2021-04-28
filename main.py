@@ -3,7 +3,7 @@ from flask import Flask, request
 import os
 import logging
 import json
-from deep_translator import GoogleTranslator
+from deep_translator import GoogleTranslator  # pip install deep_translator - обязательно!!!
 
 
 LANGUAGE = 'en'
@@ -64,13 +64,13 @@ def handle_dialog(res, req):
                                   f'Я Алиса. Я умею постараюсь перевести заданный вами ' \
                                   f'текст с любого языка на английский! ' \
                                   f'В этом тебе поможет команда:\n\n' \
-                                  f'\nПереведи слово [слово]\n\n\nПросто ' \
+                                  f'\nПереведи предложение [предложение]\n\n\nПросто ' \
                                   f'отправь эту команду мне!'
         return
 
     if req['request']['original_utterance'].lower() in ['помощь', 'помоги', 'help', 'помогите']:
         res['response']['text'] = 'Чтобы перевести текст введите команду:\n\n\n' \
-                                  'Переведи слово [слово]'
+                                  'Переведи предложение [предложение]'
         return
 
     tokens = req['request']['nlu']['tokens']
