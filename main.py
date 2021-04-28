@@ -161,7 +161,7 @@ def handle_dialog(res, req):
                 res['response']['text'] = 'Ну и ладно!'
                 res['response']['end_session'] = True
             else:
-                if req['request']['original_utterance'].lower() == 'Покажи город на карте':
+                if req['request']['original_utterance'] == 'Покажи город на карте':
                     res['response']['text'] = 'Ну, показала! Сыграём ещё?'
                 else:
                     res['response']['text'] = 'Не поняла ответа! Так да или нет?'
@@ -196,7 +196,7 @@ def play_game(res, req):
         # проверяем есть ли правильный ответ в сообщение
         if get_city(req) == city:
             res['response']['buttons'] = [*STANDART_BTNS,
-                                          {'title': 'Покажи город на карте!',
+                                          {'title': 'Покажи город на карте',
                                            'hide': True,
                                            "url": f"https://yandex.ru/maps/"
                                                   f"?mode=search&text={city}"}]
