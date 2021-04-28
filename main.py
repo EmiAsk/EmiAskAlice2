@@ -55,8 +55,8 @@ def get_geo_info(city_name, type_info='coordinates'):
 app = Flask(__name__)
 
 
-logging.basicConfig(level=logging.INFO, filename='app.log',
-                    format='%(asctime)s %(levelname)s %(name)s %(message)s')
+# logging.basicConfig(level=logging.INFO, filename='app.log',
+#                     format='%(asctime)s %(levelname)s %(name)s %(message)s')
 
 
 # Все фото загружал я лично через Postman
@@ -135,7 +135,6 @@ def handle_dialog(res, req):
             res['response']['text'] = 'Не расслышала имя. Повтори, пожалуйста!'
         else:
             sessionStorage[user_id]['first_name'] = first_name
-
             sessionStorage[user_id]['guessed_cities'] = []
 
             res['response']['text'] = f'Приятно познакомиться, {first_name.title()}.' \
@@ -193,7 +192,7 @@ def play_game(res, req):
         # сюда попадаем, если попытка отгадать не первая
         city = sessionStorage[user_id]['city']
 
-        if city in sessionStorage['guessed_cities']:
+        if city in sessionStorage[user_id]['guessed_cities']:
             if req['request']['original_utterance'].lower() ==\
                     sessionStorage[user_id]['country']:
                 res['response']['buttons'] = [*STANDART_BTNS,
@@ -251,4 +250,4 @@ def get_first_name(req):
 
 if __name__ == '__main__':
     port = int(os.environ.get("PORT", 5000))
-    app.run(host='0.0.0.0', port=port)
+    app.run(host='127.0.0.1', port=port)
