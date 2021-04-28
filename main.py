@@ -63,27 +63,28 @@ def handle_dialog(res, req):
         res['response']['text'] = f'Приятно познакомиться, {name.title()}. ' \
                                   f'Я Алиса. Я умею постараюсь перевести заданный вами ' \
                                   f'текст с любого языка на английский! ' \
-                                  f'В этом тебе поможет команда:\n' \
-                                  f'\n"Переведи слово [слово]\n\nПросто ' \
-                                  f'отправь эту команду мне!"'
+                                  f'В этом тебе поможет команда:\n\n' \
+                                  f'\nПереведи слово [слово]\n\n\nПросто ' \
+                                  f'отправь эту команду мне!'
         return
 
     if req['request']['original_utterance'].lower() in ['помощь', 'помоги', 'help', 'помогите']:
-        res['response']['text'] = 'Чтобы перевести текст введите команду:\n\n' \
+        res['response']['text'] = 'Чтобы перевести текст введите команду:\n\n\n' \
                                   'Переведи слово [слово]'
         return
 
     tokens = req['request']['nlu']['tokens']
-    if len(tokens) == 3 and ''.join(tokens[:-1]) == 'переведи слово':
+    if len(tokens) == 3 and tokens[:-1] == ['переведи', 'слово']:
         text = translate(tokens[-1])
         if text is None:
-            res['response']['text'] = 'При переводе произошла непредвиденная ошибка!' \
+            res['response']['text'] = 'При переводе произошла непредвиденная ошибка! ' \
                                       'Повторите ввод.'
             return
         res['response']['text'] = text
 
     else:
-        res['response']['text'] = f'{sessionStorage[user_id]["first_name"]}, я не понимаю ' \
+        res['response']['text'] = f'{sessionStorage[user_id]["first_name"].title()}, ' \
+                                  f'я не понимаю ' \
                                   f'вашу команду! Можете использовать помощь, чтобы узнать' \
                                   f'корректный запрос перевода. Введите команду ещё раз!'
 
